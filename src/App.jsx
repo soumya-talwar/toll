@@ -1,14 +1,18 @@
 import * as ml5 from "ml5";
 import { useState, useEffect, useRef } from "react";
 import Camera from "./components/Camera/Camera";
+import Canvas from "./components/Canvas/Canvas";
 
 function App() {
-	const modelRef = useRef(null);
 	const cameraRef = useRef(null);
+	const modelRef = useRef(null);
+	const canvasRef = useRef(null);
 	const [poses, setPoses] = useState([]);
 	useEffect(() => {
 		async function loadModel() {
-			modelRef.current = await ml5.bodyPose({ flipped: true });
+			modelRef.current = await ml5.bodyPose({ flipped: true }, () =>
+				console.log("loaded!"),
+			);
 		}
 		loadModel();
 		const startDetection = setInterval(() => {
@@ -18,11 +22,14 @@ function App() {
 				});
 			}
 		}, 100);
-		return () => startDetection && clearInterval(startDetection);
+		return () => {
+			if (startDetection) clearInterval(startDetection);
+		};
 	}, []);
 	return (
 		<>
 			<Camera cameraRef={cameraRef} />
+			<Canvas canvasRef={canvasRef} poses={poses} />
 			<button onClick={() => console.log(poses)}>See results</button>
 		</>
 	);

@@ -6,14 +6,14 @@ function Camera({ cameraRef }) {
 		<Webcam
 			ref={cameraRef}
 			audio={false}
-			width={300}
-			height={500}
+			width={800}
+			height={800}
 			style={{
 				transform: "scaleX(-1)",
 			}}
 			videoConstraints={{
-				width: 300,
-				height: 500,
+				width: 800,
+				height: 800,
 				facingMode: "user",
 			}}
 		/>
