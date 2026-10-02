@@ -1,19 +1,36 @@
 import { useEffect, useRef } from "react";
 import "./Canvas.css";
 
-function Canvas({ canvasRef, poses }) {
+function Canvas({ canvasRef, loaded, poses }) {
+	const markersRef = useRef([]);
+	const targetsRef = useRef([]);
+	const LERP = 0.3;
 	useEffect(() => {
+		if (loaded && poses.length > 0) {
+			targetsRef.current = poses[0].keypoints;
+			if (markersRef.current.length == 0) {
+				markersRef.current = structuredClone(targetsRef.current);
+				requestAnimationFrame(animate);
+			}
+		}
+	}, [loaded, poses]);
+	function animate() {
 		const context = canvasRef.current.getContext("2d");
 		context.reset();
-		poses[0]?.keypoints.forEach((marker) => {
-			if (marker.confidence > 0.1) {
+		for (let i = 0; i < markersRef.current.length; i++) {
+			let marker = markersRef.current[i];
+			let target = targetsRef.current[i];
+			marker.x = marker.x + (target.x - marker.x) * LERP;
+			marker.y = marker.y + (target.y - marker.y) * LERP;
+			if (target.confidence > 0.1) {
 				context.beginPath();
 				context.arc(marker.x, marker.y, 5, 0, 2 * Math.PI);
 				context.fillStyle = "white";
 				context.fill();
 			}
-		});
-	}, [poses]);
+		}
+		requestAnimationFrame(animate);
+	}
 	return <canvas ref={canvasRef} width={800} height={800}></canvas>;
 }
 

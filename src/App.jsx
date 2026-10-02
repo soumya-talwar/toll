@@ -7,12 +7,14 @@ function App() {
 	const cameraRef = useRef(null);
 	const modelRef = useRef(null);
 	const canvasRef = useRef(null);
+	const [loaded, setLoaded] = useState(false);
 	const [poses, setPoses] = useState([]);
 	useEffect(() => {
 		async function loadModel() {
-			modelRef.current = await ml5.bodyPose({ flipped: true }, () =>
-				console.log("loaded!"),
-			);
+			modelRef.current = await ml5.bodyPose({ flipped: true }, () => {
+				setLoaded(true);
+				console.log("loaded!");
+			});
 		}
 		loadModel();
 		const startDetection = setInterval(() => {
@@ -29,7 +31,7 @@ function App() {
 	return (
 		<>
 			<Camera cameraRef={cameraRef} />
-			<Canvas canvasRef={canvasRef} poses={poses} />
+			<Canvas canvasRef={canvasRef} loaded={loaded} poses={poses} />
 			<button onClick={() => console.log(poses)}>See results</button>
 		</>
 	);
