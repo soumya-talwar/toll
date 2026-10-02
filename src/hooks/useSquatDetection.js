@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import calculateAngle from "../utils/calculateAngle";
 
-export default function useSquatDetection(poses) {
+export default function useSquatDetection(poses, weightage, setRemaining) {
 	const [squats, setSquats] = useState(0);
 	const squatStateRef = useRef("standing");
 	useEffect(() => {
@@ -55,6 +55,10 @@ export default function useSquatDetection(poses) {
 			) {
 				squatStateRef.current = "standing";
 				setSquats((prev) => prev + 1);
+				setRemaining((prev) => ({
+					steps: prev.steps - weightage,
+					squats: prev.squats - 1,
+				}));
 			}
 		}
 	}, [poses]);
