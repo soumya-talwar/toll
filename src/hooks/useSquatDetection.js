@@ -1,24 +1,42 @@
 import calculateAngle from "../utils/calculateAngle";
 
 export default function useSquatDetection(poses, squatStateRef, setSquats) {
+	let confidences = {
+		left_hip: poses[0]?.left_hip?.confidence,
+		right_hip: poses[0]?.right_hip?.confidence,
+		left_knee: poses[0]?.left_knee?.confidence,
+		right_knee: poses[0]?.right_knee?.confidence,
+		left_ankle: poses[0]?.left_ankle?.confidence,
+		right_ankle: poses[0]?.right_ankle?.confidence,
+	};
+	let LEFT_KNEE_HIP = 0;
+	let RIGHT_KNEE_HIP = 0;
+	let LEFT_KNEE_ANKLE = 0;
+	let RIGHT_KNEE_ANKLE = 0;
 	let LEFT_ANGLE = 0;
 	let RIGHT_ANGLE = 0;
-	const LEFT_KNEE_HIP = {
-		x: poses[0]?.left_hip?.x - poses[0]?.left_knee?.x,
-		y: poses[0]?.left_hip?.y - poses[0]?.left_knee?.y,
-	};
-	const RIGHT_KNEE_HIP = {
-		x: poses[0]?.right_hip?.x - poses[0]?.right_knee?.x,
-		y: poses[0]?.right_hip?.y - poses[0]?.right_knee?.y,
-	};
-	const LEFT_KNEE_ANKLE = {
-		x: poses[0]?.left_ankle?.x - poses[0]?.left_knee?.x,
-		y: poses[0]?.left_ankle?.y - poses[0]?.left_knee?.y,
-	};
-	const RIGHT_KNEE_ANKLE = {
-		x: poses[0]?.right_ankle?.x - poses[0]?.right_knee?.x,
-		y: poses[0]?.right_ankle?.y - poses[0]?.right_knee?.y,
-	};
+	if (
+		Object.values(confidences).every(
+			(confidence) => confidence && confidence > 0.1,
+		)
+	) {
+		LEFT_KNEE_HIP = {
+			x: poses[0].left_hip.x - poses[0].left_knee.x,
+			y: poses[0].left_hip.y - poses[0].left_knee.y,
+		};
+		RIGHT_KNEE_HIP = {
+			x: poses[0].right_hip.x - poses[0].right_knee.x,
+			y: poses[0].right_hip.y - poses[0].right_knee.y,
+		};
+		LEFT_KNEE_ANKLE = {
+			x: poses[0].left_ankle.x - poses[0].left_knee.x,
+			y: poses[0].left_ankle.y - poses[0].left_knee.y,
+		};
+		RIGHT_KNEE_ANKLE = {
+			x: poses[0].right_ankle.x - poses[0].right_knee.x,
+			y: poses[0].right_ankle.y - poses[0].right_knee.y,
+		};
+	}
 	if (LEFT_KNEE_HIP && LEFT_KNEE_ANKLE)
 		LEFT_ANGLE = calculateAngle(LEFT_KNEE_HIP, LEFT_KNEE_ANKLE);
 	if (RIGHT_KNEE_HIP && RIGHT_KNEE_ANKLE)
