@@ -11,8 +11,7 @@ function App() {
 	const [loaded, setLoaded] = useState(false);
 	const [poses, setPoses] = useState([]);
 	const [connections, setConnections] = useState([]);
-	const [squats, setSquats] = useState(0);
-	const squatStateRef = useRef("standing");
+	const squats = useSquatDetection(poses);
 	useEffect(() => {
 		async function loadModel() {
 			modelRef.current = await ml5.bodyPose({ flipped: true }, () => {
@@ -26,7 +25,6 @@ function App() {
 			if (modelRef.current && cameraRef?.current?.video?.readyState === 4) {
 				modelRef.current.detect(cameraRef.current.video, (results) => {
 					setPoses(results);
-					useSquatDetection(results, squatStateRef, setSquats);
 				});
 			}
 		}, 100);
