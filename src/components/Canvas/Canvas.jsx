@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import "./Canvas.css";
 
-function Canvas({ canvasRef, loaded, poses }) {
+function Canvas({ canvasRef, loaded, poses, connections }) {
 	const markersRef = useRef([]);
 	const targetsRef = useRef([]);
 	const LERP = 0.3;
@@ -29,6 +29,21 @@ function Canvas({ canvasRef, loaded, poses }) {
 				context.fill();
 			}
 		}
+		connections.forEach((connection) => {
+			let markerA = markersRef.current[connection[0]];
+			let markerB = markersRef.current[connection[1]];
+			if (
+				targetsRef.current[connection[0]].confidence > 0.1 &&
+				targetsRef.current[connection[1]].confidence > 0.1
+			) {
+				context.beginPath();
+				context.moveTo(markerA.x, markerA.y);
+				context.lineTo(markerB.x, markerB.y);
+				context.strokeStyle = "white";
+				context.lineWidth = 2;
+				context.stroke();
+			}
+		});
 		requestAnimationFrame(animate);
 	}
 	return <canvas ref={canvasRef} width={800} height={800}></canvas>;

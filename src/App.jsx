@@ -9,12 +9,14 @@ function App() {
 	const canvasRef = useRef(null);
 	const [loaded, setLoaded] = useState(false);
 	const [poses, setPoses] = useState([]);
+	const [connections, setConnections] = useState([]);
 	useEffect(() => {
 		async function loadModel() {
 			modelRef.current = await ml5.bodyPose({ flipped: true }, () => {
-				setLoaded(true);
 				console.log("loaded!");
+				setLoaded(true);
 			});
+			setConnections(modelRef.current.getSkeleton());
 		}
 		loadModel();
 		const startDetection = setInterval(() => {
@@ -31,7 +33,12 @@ function App() {
 	return (
 		<>
 			<Camera cameraRef={cameraRef} />
-			<Canvas canvasRef={canvasRef} loaded={loaded} poses={poses} />
+			<Canvas
+				canvasRef={canvasRef}
+				loaded={loaded}
+				poses={poses}
+				connections={connections}
+			/>
 			<button onClick={() => console.log(poses)}>See results</button>
 		</>
 	);
