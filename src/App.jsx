@@ -2,6 +2,7 @@ import * as ml5 from "ml5";
 import { useState, useEffect, useRef } from "react";
 import Camera from "./components/Camera/Camera";
 import Canvas from "./components/Canvas/Canvas";
+import useSquatDetection from "./hooks/useSquatDetection";
 
 function App() {
 	const cameraRef = useRef(null);
@@ -10,6 +11,8 @@ function App() {
 	const [loaded, setLoaded] = useState(false);
 	const [poses, setPoses] = useState([]);
 	const [connections, setConnections] = useState([]);
+	const [squats, setSquats] = useState(0);
+	const squatStateRef = useRef("standing");
 	useEffect(() => {
 		async function loadModel() {
 			modelRef.current = await ml5.bodyPose({ flipped: true }, () => {
@@ -23,6 +26,7 @@ function App() {
 			if (modelRef.current && cameraRef?.current?.video?.readyState === 4) {
 				modelRef.current.detect(cameraRef.current.video, (results) => {
 					setPoses(results);
+					useSquatDetection(results, squatStateRef, setSquats);
 				});
 			}
 		}, 100);
@@ -39,7 +43,7 @@ function App() {
 				poses={poses}
 				connections={connections}
 			/>
-			<button onClick={() => console.log(poses)}>See results</button>
+			<h1 id="squats">SQUATS: {squats}</h1>
 		</>
 	);
 }
