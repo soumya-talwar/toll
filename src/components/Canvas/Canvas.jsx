@@ -46,7 +46,7 @@ function Canvas({ canvasRef, loaded, poses, connections }) {
 		});
 		requestAnimationFrame(animate);
 	}
-	return <canvas ref={canvasRef} width={800} height={800}></canvas>;
+	return <canvas ref={canvasRef} width={900} height={800}></canvas>;
 }
 
 export default Canvas;

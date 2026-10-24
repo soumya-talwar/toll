@@ -1,0 +1,30 @@
+:root {
+	--font-heading: "Luckiest-Guy";
+	--font-body: "Reddit";
+
+	/* --font-size-largest: 3.5rem;
+	--letter-spacing-largest: 4px;
+
+	--font-size-large: 2.5rem;
+	--line-height-large: 3.5rem;
+
+	--font-size-bigger: 1.7rem;
+	--line-height-bigger: 2rem;
+
+	--font-size-big: 1.4rem;
+	--line-height-big: 1.8rem;
+	--letter-spacing-big: 1px;
+
+	--font-size-regular: 0.75rem;
+	--line-height-regular: 1.5rem;
+	--letter-spacing-regular: 1.8px;
+
+	--font-size-small: 0.65rem;
+	--line-height-small: 1rem; */
+
+	--color-background: #8f8f93;
+	--color-text: #000000;
+	/* --color-lightergray: #f7f7f7;
+	--color-lightgray: #dddddd;
+	--color-darkgray: #999999; */
+}
