@@ -3,11 +3,13 @@ import { useState, useEffect, useRef } from "react";
 import Camera from "./components/Camera/Camera";
 import Canvas from "./components/Canvas/Canvas";
 import useSquatDetection from "./hooks/useSquatDetection";
+import usePushupDetection from "./hooks/usePushupDetection";
 import Johnny from "./assets/images/Johnny.png";
 
 function App() {
 	const QUOTA = 10000;
 	const SQUAT = 200;
+	const PUSHUP = 200;
 	const query = new URLSearchParams(window.location.search);
 	const STEPS = Number(query.get("steps"));
 	const cameraRef = useRef(null);
@@ -16,12 +18,17 @@ function App() {
 	const [loaded, setLoaded] = useState(false);
 	const [poses, setPoses] = useState([]);
 	const [connections, setConnections] = useState([]);
+	// const [remaining, setRemaining] = useState({
+	// 	steps: QUOTA - STEPS,
+	// 	squats: Math.round((QUOTA - STEPS) / SQUAT),
+	// });
 	const [remaining, setRemaining] = useState({
 		steps: QUOTA - STEPS,
-		squats: Math.round((QUOTA - STEPS) / SQUAT),
+		pushups: Math.round((QUOTA - STEPS) / PUSHUP),
 	});
 	const [start, setStart] = useState(false);
-	const squats = useSquatDetection(poses, SQUAT, setRemaining);
+	// const squats = useSquatDetection(poses, SQUAT, setRemaining);
+	const pushups = usePushupDetection(poses, PUSHUP, setRemaining);
 	useEffect(() => {
 		async function loadModel() {
 			modelRef.current = await ml5.bodyPose({ flipped: true }, () => {
@@ -59,14 +66,14 @@ function App() {
 							</div>
 							<p id="description">steps walked today</p>
 							<button id="start" onClick={() => setStart(true)}>
-								START SQUATTING
+								START PUSHUPS
 							</button>
 						</div>
 					)}
 					{start && (
 						<div class="card">
-							<p id="description2">remaining squats</p>
-							<h1 id="remaining">{remaining.squats}</h1>
+							<p id="description2">remaining pushups</p>
+							<h1 id="remaining">{remaining.pushups}</h1>
 						</div>
 					)}
 				</div>
