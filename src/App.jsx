@@ -8,11 +8,6 @@ import calculateDimensions from "./utils/calculateDimensions";
 import Johnny from "./assets/images/Johnny.png";
 
 function App() {
-	const QUOTA = 10000;
-	const SQUAT = 200;
-	const PUSHUP = 200;
-	const query = new URLSearchParams(window.location.search);
-	const STEPS = Number(query.get("steps"));
 	const cameraRef = useRef(null);
 	const modelRef = useRef(null);
 	const canvasRef = useRef(null);
@@ -32,17 +27,13 @@ function App() {
 				viewportSize.height,
 			)
 		: null;
-	// const [remaining, setRemaining] = useState({
-	// 	steps: QUOTA - STEPS,
-	// 	squats: Math.round((QUOTA - STEPS) / SQUAT),
-	// });
-	const [remaining, setRemaining] = useState({
-		steps: QUOTA - STEPS,
-		pushups: Math.round((QUOTA - STEPS) / PUSHUP),
-	});
+	const [squatCount, setSquatCount] = useState(10);
+	const [pushupCount, setPushUpCount] = useState(5);
+	const query = new URLSearchParams(window.location.search);
+	const steps = Number(query.get("steps"));
 	const [start, setStart] = useState(false);
-	// const squats = useSquatDetection(poses, SQUAT, setRemaining);
-	const pushups = usePushupDetection(poses, PUSHUP, setRemaining);
+	usePushupDetection(poses, setPushUpCount);
+	useSquatDetection(poses, setSquatCount);
 	useEffect(() => {
 		function handleResize() {
 			setViewportSize({
@@ -84,20 +75,33 @@ function App() {
 				<div id="container">
 					{!start && (
 						<div className="card">
-							<div id="stats">
-								<h1 id="steps">{STEPS}</h1>
-								<p id="total">/ 10000</p>
+							<div className="stats">
+								<div className="stat">
+									<h1>{squatCount}</h1>
+									<p>SQUATS</p>
+								</div>
+								<div className="stat">
+									<h1>{pushupCount}</h1>
+									<p>PUSHUPS</p>
+								</div>
 							</div>
-							<p id="description">steps walked today</p>
 							<button id="start" onClick={() => setStart(true)}>
-								START PUSHUPS
+								GET GOING
 							</button>
 						</div>
 					)}
 					{start && (
-						<div className="card">
-							<p id="description2">remaining pushups</p>
-							<h1 id="remaining">{remaining.pushups}</h1>
+						<div className="card" id="card2">
+							<div className="stats">
+								<div className="stat">
+									<h1>{squatCount}</h1>
+									<p>remaining squats</p>
+								</div>
+								<div className="stat">
+									<h1>{pushupCount}</h1>
+									<p>remaining pushups</p>
+								</div>
+							</div>
 						</div>
 					)}
 				</div>

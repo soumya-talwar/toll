@@ -59,49 +59,47 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 1rem;
+	padding: 2rem;
 	gap: 0.5rem;
 	text-align: center;
 	border: 3px solid var(--color-black);
 	border-radius: 15px;
 	z-index: 5;
+}
 
-	p,
+.stats {
+	display: flex;
+	margin-bottom: 1rem;
+}
+
+.stat {
+	padding: 0 2rem;
+
 	h1 {
+		font-family: var(--font-heading);
+		font-size: var(--fontsize-largest);
 		margin: 0;
 	}
 
 	p {
-		font-size: 1.1rem !important;
-	}
-
-	h1 {
-		font-size: 1.5rem;
+		font-weight: var(--fontweight-medium);
+		font-size: var(--fontsize-regular);
+		margin: 0;
 	}
 }
 
-#steps {
-	font-family: var(--font-heading);
-	font-size: 5rem;
-}
-
-#total {
-	font-family: var(--font-heading);
-	font-size: 2rem;
-}
-
-#description,
-#description2 {
-	font-size: 1.3rem;
+.stat:first-of-type {
+	border-right: 2px solid var(--color-black);
 }
 
 #start {
 	width: fit-content;
 	background-color: var(--color-white);
-	color: #000000;
+	color: var(--color-black);
 	padding: 0.5rem 2rem;
 	font-family: var(--font-body);
-	font-size: 1.2rem;
+	font-size: var(--fontsize-regular);
+	font-weight: var(--fontweight-medium);
 	margin-top: 1rem;
 	border: 2px solid var(--color-black);
 	border-radius: 25px;
@@ -111,6 +109,20 @@ body {
 #start:hover {
 	background-color: var(--color-black);
 	color: var(--color-white);
+}
+
+#card2 {
+	padding: 0.5rem;
+
+	h1 {
+		font-family: var(--font-body);
+		font-size: var(--fontsize-large);
+		margin: 0;
+	}
+
+	p {
+		font-size: var(--fontsize-small);
+	}
 }
 
 #webcam-container {
@@ -136,11 +148,11 @@ body {
 
 		img {
 			display: block;
-			width: 150%;
+			width: 125%;
 			height: auto;
 			max-width: none;
 			position: relative;
-			left: 50%;
+			left: 60%;
 			transform: translateX(-50%);
 		}
 	}

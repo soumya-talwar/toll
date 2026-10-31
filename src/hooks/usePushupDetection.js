@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import calculateAngle from "../utils/calculateAngle";
 
-export default function usePushupDetection(poses, weightage, setRemaining) {
-	const [pushups, setPushups] = useState(0);
+export default function usePushupDetection(poses, setPushupCount) {
 	const pushupStateRef = useRef("straight");
 	useEffect(() => {
 		let confidences = {
@@ -98,13 +97,8 @@ export default function usePushupDetection(poses, weightage, setRemaining) {
 				pushupStateRef.current == "bent"
 			) {
 				pushupStateRef.current = "straight";
-				setPushups((prev) => prev + 1);
-				setRemaining((prev) => ({
-					steps: prev.steps - weightage,
-					pushups: prev.pushups - 1,
-				}));
+				setPushupCount((prev) => prev - 1);
 			}
 		}
 	}, [poses]);
-	return pushups;
 }

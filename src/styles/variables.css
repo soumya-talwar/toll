@@ -2,6 +2,13 @@
 	--font-heading: "Luckiest-Guy";
 	--font-body: "Reddit";
 
+	--fontsize-largest: 5rem;
+	--fontsize-large: 2rem;
+	--fontsize-regular: 1.2rem;
+	--fontsize-small: 0.9rem;
+
+	--fontweight-medium: 600;
+
 	--color-gray: #8f8f93;
 	--color-black: #000000;
 	--color-white: #ffffff;
