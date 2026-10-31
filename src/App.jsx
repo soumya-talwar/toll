@@ -35,6 +35,14 @@ function App() {
 	usePushupDetection(poses, setPushUpCount);
 	useSquatDetection(poses, setSquatCount);
 	useEffect(() => {
+		async function testConnection() {
+			const response = await fetch("/api");
+			const data = await response.text();
+			console.log(data);
+		}
+		testConnection();
+	}, []);
+	useEffect(() => {
 		function handleResize() {
 			setViewportSize({
 				width: window.innerWidth,
