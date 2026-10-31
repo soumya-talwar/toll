@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import "./Canvas.css";
 
-function Canvas({ canvasRef, loaded, poses, connections }) {
+function Canvas({ canvasRef, loaded, streamSize, poses, connections }) {
 	const markersRef = useRef([]);
 	const targetsRef = useRef([]);
 	const LERP = 0.3;
@@ -16,7 +16,7 @@ function Canvas({ canvasRef, loaded, poses, connections }) {
 	}, [loaded, poses]);
 	function animate() {
 		const context = canvasRef.current.getContext("2d");
-		context.reset();
+		context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 		for (let i = 0; i < markersRef.current.length; i++) {
 			let marker = markersRef.current[i];
 			let target = targetsRef.current[i];
@@ -46,7 +46,12 @@ function Canvas({ canvasRef, loaded, poses, connections }) {
 		});
 		requestAnimationFrame(animate);
 	}
-	return <canvas ref={canvasRef} width={900} height={800}></canvas>;
+	return (
+		<canvas
+			ref={canvasRef}
+			width={streamSize?.width}
+			height={streamSize?.height}></canvas>
+	);
 }
 
 export default Canvas;

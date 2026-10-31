@@ -1,20 +1,26 @@
 import Webcam from "react-webcam";
 import "./Camera.css";
 
-function Camera({ cameraRef }) {
+function Camera({ cameraRef, onStreamSize }) {
 	return (
 		<Webcam
 			ref={cameraRef}
 			audio={false}
-			width={900}
-			height={800}
-			style={{
-				transform: "scaleX(-1)",
+			onUserMedia={() => {
+				const video = cameraRef.current.video;
+				video.addEventListener("loadedmetadata", () => {
+					video.width = video.videoWidth;
+					video.height = video.videoHeight;
+					onStreamSize(video.videoWidth, video.videoHeight);
+				});
 			}}
 			videoConstraints={{
-				width: 900,
-				height: 800,
 				facingMode: "user",
+			}}
+			style={{
+				width: "100%",
+				height: "100%",
+				transform: "scaleX(-1)",
 			}}
 		/>
 	);

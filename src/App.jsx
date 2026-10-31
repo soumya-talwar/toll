@@ -4,6 +4,7 @@ import Camera from "./components/Camera/Camera";
 import Canvas from "./components/Canvas/Canvas";
 import useSquatDetection from "./hooks/useSquatDetection";
 import usePushupDetection from "./hooks/usePushupDetection";
+import calculateDimensions from "./utils/calculateDimensions";
 import Johnny from "./assets/images/Johnny.png";
 
 function App() {
@@ -18,6 +19,19 @@ function App() {
 	const [loaded, setLoaded] = useState(false);
 	const [poses, setPoses] = useState([]);
 	const [connections, setConnections] = useState([]);
+	const [viewportSize, setViewportSize] = useState({
+		width: window.innerWidth,
+		height: window.innerHeight,
+	});
+	const [streamSize, setStreamSize] = useState(null);
+	const displaySize = streamSize
+		? calculateDimensions(
+				streamSize.width,
+				streamSize.height,
+				viewportSize.width,
+				viewportSize.height,
+			)
+		: null;
 	// const [remaining, setRemaining] = useState({
 	// 	steps: QUOTA - STEPS,
 	// 	squats: Math.round((QUOTA - STEPS) / SQUAT),
@@ -29,6 +43,16 @@ function App() {
 	const [start, setStart] = useState(false);
 	// const squats = useSquatDetection(poses, SQUAT, setRemaining);
 	const pushups = usePushupDetection(poses, PUSHUP, setRemaining);
+	useEffect(() => {
+		function handleResize() {
+			setViewportSize({
+				width: window.innerWidth,
+				height: window.innerHeight,
+			});
+		}
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
 	useEffect(() => {
 		async function loadModel() {
 			modelRef.current = await ml5.bodyPose({ flipped: true }, () => {
@@ -71,25 +95,37 @@ function App() {
 						</div>
 					)}
 					{start && (
-						<div class="card">
+						<div className="card">
 							<p id="description2">remaining pushups</p>
 							<h1 id="remaining">{remaining.pushups}</h1>
 						</div>
 					)}
 				</div>
 				{start && (
-					<div id="camera-container">
-						<Camera cameraRef={cameraRef} />
-					</div>
-				)}
-				{start && (
-					<div id="canvas-container">
-						<Canvas
-							canvasRef={canvasRef}
-							loaded={loaded}
-							poses={poses}
-							connections={connections}
-						/>
+					<div id="webcam-container">
+						<div
+							id="webcam"
+							style={{
+								width: displaySize ? displaySize.width : "100%",
+								height: displaySize ? displaySize.height : "100%",
+								visibility: displaySize ? "visible" : "hidden",
+							}}>
+							<Camera
+								cameraRef={cameraRef}
+								onStreamSize={(width, height) =>
+									setStreamSize({ width, height })
+								}
+							/>
+							{streamSize && (
+								<Canvas
+									canvasRef={canvasRef}
+									loaded={loaded}
+									streamSize={streamSize}
+									poses={poses}
+									connections={connections}
+								/>
+							)}
+						</div>
 					</div>
 				)}
 				{/* <h1 className="stats">REMAINING STEPS: {remaining.steps}</h1>
