@@ -97,7 +97,7 @@ export default function usePushupDetection(poses, setPushupCount) {
 				pushupStateRef.current == "bent"
 			) {
 				pushupStateRef.current = "straight";
-				setPushupCount((prev) => (prev ? Math.max(0, prev - 1) : null));
+				setPushupCount((prev) => (prev ? prev - 1 : 0));
 			}
 		}
 	}, [poses]);
