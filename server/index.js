@@ -29,4 +29,10 @@ app.get("/api/unlock", async (req, res) => {
 	await unlock();
 });
 
-app.listen(port, () => console.log(`listening on ${port}!`));
+// app.listen(port, () => console.log(`listening on ${port}!`));
+
+export default app;
+
+if (!process.env.VERCEL) {
+	app.listen(port, () => console.log(`listening on ${port}!`));
+}
