@@ -36,7 +36,7 @@ function App() {
 	useSquatDetection(poses, setSquatCount);
 	useEffect(() => {
 		async function getCounts() {
-			const response = await fetch(`/api/counts/?steps=${steps}`);
+			const response = await fetch(`/api/counts?steps=${steps}`);
 			const data = await response.json();
 			setSquatCount(data.squats);
 			setPushUpCount(data.pushups);
