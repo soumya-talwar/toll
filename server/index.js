@@ -1,5 +1,6 @@
+import "dotenv/config";
 import express from "express";
-import getDeliveryCount from "./sheet.js";
+import { getDeliveryCount, getGymAttendance } from "./sheet.js";
 import calculateCounts from "./calculate.js";
 import unlock from "./unlock.js";
 const app = express();
@@ -10,7 +11,8 @@ app.get("/", (req, res) => res.send("Hello world"));
 app.get("/api/counts", async (req, res) => {
 	const stepCount = Number(req.query?.steps);
 	const deliveryCount = await getDeliveryCount();
-	const counts = calculateCounts(deliveryCount, stepCount);
+	const gymAttendance = await getGymAttendance();
+	const counts = calculateCounts(deliveryCount, stepCount, gymAttendance);
 	res.send(counts);
 });
 

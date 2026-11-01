@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { URLSearchParams } from "node:url";
 
 export default async function unlock() {

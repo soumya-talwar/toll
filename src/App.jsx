@@ -38,7 +38,6 @@ function App() {
 		async function getCounts() {
 			const response = await fetch(`/api/counts/?steps=${steps}`);
 			const data = await response.json();
-			// console.log(data);
 			setSquatCount(data.squats);
 			setPushUpCount(data.pushups);
 		}
