@@ -27,20 +27,22 @@ function App() {
 				viewportSize.height,
 			)
 		: null;
-	const [squatCount, setSquatCount] = useState(10);
-	const [pushupCount, setPushUpCount] = useState(5);
+	const [squatCount, setSquatCount] = useState(null);
+	const [pushupCount, setPushUpCount] = useState(null);
 	const query = new URLSearchParams(window.location.search);
 	const steps = Number(query.get("steps"));
 	const [start, setStart] = useState(false);
 	usePushupDetection(poses, setPushUpCount);
 	useSquatDetection(poses, setSquatCount);
 	useEffect(() => {
-		async function testConnection() {
-			const response = await fetch("/api");
-			const data = await response.text();
-			console.log(data);
+		async function getCounts() {
+			const response = await fetch("/api/counts");
+			const data = await response.json();
+			// console.log(data);
+			setSquatCount(data.squats);
+			setPushUpCount(data.pushups);
 		}
-		testConnection();
+		getCounts();
 	}, []);
 	useEffect(() => {
 		function handleResize() {
@@ -140,8 +142,6 @@ function App() {
 						</div>
 					</div>
 				)}
-				{/* <h1 className="stats">REMAINING STEPS: {remaining.steps}</h1>
-				<h1 className="stats">REMAINING SQUATS: {remaining.squats}</h1> */}
 			</div>
 		</>
 	);
