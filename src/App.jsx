@@ -5,7 +5,7 @@ import Canvas from "./components/Canvas/Canvas";
 import useSquatDetection from "./hooks/useSquatDetection";
 import usePushupDetection from "./hooks/usePushupDetection";
 import calculateDimensions from "./utils/calculateDimensions";
-import Johnny from "./assets/images/Johnny.png";
+import Johnny from "./assets/images/johnny.png";
 
 function App() {
 	const cameraRef = useRef(null);
