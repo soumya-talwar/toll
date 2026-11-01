@@ -8,8 +8,9 @@ const port = 3000;
 app.get("/", (req, res) => res.send("Hello world"));
 
 app.get("/api/counts", async (req, res) => {
+	const stepCount = Number(req.query?.steps);
 	const deliveryCount = await getDeliveryCount();
-	const counts = calculateCounts(deliveryCount);
+	const counts = calculateCounts(deliveryCount, stepCount);
 	res.send(counts);
 });
 
