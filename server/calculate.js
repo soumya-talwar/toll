@@ -12,11 +12,6 @@ export default function calculateCounts(
 			? (stepCount - stepThreshold) / stepRemainderDivider
 			: 0;
 	const gymSubtraction = gymAttendance ? 5 : 0;
-	console.log("Variables: ", {
-		stepSubtraction,
-		deliveryCount,
-		gymSubtraction,
-	});
 	return {
 		squats: Math.max(
 			0,

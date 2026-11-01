@@ -1,6 +1,10 @@
 import "dotenv/config";
 import express from "express";
-import { getDeliveryCount, getGymAttendance } from "./sheet.js";
+import {
+	getDeliveryCount,
+	getGymAttendance,
+	markGymAttendance,
+} from "./sheet.js";
 import calculateCounts from "./calculate.js";
 import unlock from "./unlock.js";
 const app = express();
@@ -14,6 +18,11 @@ app.get("/api/counts", async (req, res) => {
 	const gymAttendance = await getGymAttendance();
 	const counts = calculateCounts(deliveryCount, stepCount, gymAttendance);
 	res.send(counts);
+});
+
+app.get("/api/gym", async (req, res) => {
+	await markGymAttendance();
+	res.status(200).json({ message: "Gym attendance marked successfully." });
 });
 
 app.listen(port, () => console.log(`listening on ${port}!`));

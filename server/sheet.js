@@ -24,3 +24,15 @@ export async function getGymAttendance() {
 	const date = new Date(Number(values[values.length - 1]));
 	return date.toDateString() === new Date().toDateString();
 }
+
+export async function markGymAttendance() {
+	await sheets.spreadsheets.values.append({
+		spreadsheetId,
+		range: "Gym!A:A",
+		valueInputOption: "USER_ENTERED",
+		requestBody: {
+			values: [[Date.now()]],
+		},
+	});
+	console.log("Successfully marked attendance in Google sheet");
+}
