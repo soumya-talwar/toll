@@ -53,7 +53,7 @@ export default function useSquatDetection(poses, setSquatCount) {
 				squatStateRef.current == "squatting"
 			) {
 				squatStateRef.current = "standing";
-				setSquatCount((prev) => (prev ? prev - 1 : null));
+				setSquatCount((prev) => (prev ? Math.max(0, prev - 1) : null));
 			}
 		}
 	}, [poses]);

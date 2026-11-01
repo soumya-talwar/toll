@@ -21,7 +21,7 @@ export async function getGymAttendance() {
 		range: "Gym!A2:A",
 	});
 	const values = response?.data?.values;
-	const date = new Date(Number(values[values.length - 1]));
+	const date = new Date(Number(values?.[values.length - 1]));
 	return date.toDateString() === new Date().toDateString();
 }
 

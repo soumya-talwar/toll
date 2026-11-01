@@ -73,6 +73,9 @@ function App() {
 			if (startDetection) clearInterval(startDetection);
 		};
 	}, []);
+	useEffect(() => {
+		if (squatCount == 0 && pushupCount == 0) fetch("/api/unlock");
+	}, [squatCount, pushupCount]);
 	return (
 		<>
 			<div id="background">

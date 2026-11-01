@@ -25,4 +25,8 @@ app.get("/api/gym", async (req, res) => {
 	res.status(200).json({ message: "Gym attendance marked successfully." });
 });
 
+app.get("/api/unlock", async (req, res) => {
+	await unlock();
+});
+
 app.listen(port, () => console.log(`listening on ${port}!`));
