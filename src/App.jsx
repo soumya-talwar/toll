@@ -94,7 +94,7 @@ function App() {
 								</div>
 								<div className="stat">
 									<h1>{pushupCount}</h1>
-									<p>PUSH-UPS</p>
+									<p>PUSHUPS</p>
 								</div>
 							</div>
 							<button id="start" onClick={() => setStart(true)}>
@@ -111,7 +111,7 @@ function App() {
 								</div>
 								<div className="stat">
 									<h1>{pushupCount}</h1>
-									<p>push-ups left</p>
+									<p>pushups left</p>
 								</div>
 							</div>
 						</div>
